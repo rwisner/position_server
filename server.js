@@ -1,18 +1,21 @@
-var http = require('http');
-var url = require('url');
+var express = require("express");
+var app = express();
+latest = new Object();
 
-var latest = '';
+app.use(express.logger());
 
-var server = http.createServer(function (request, response) {
-  var requestPath = url.parse(request.url).pathname;
-  response.writeHead(200, {"Content-Type": "text/plain"});
-  var parts = requestPath.split("/");
-  if (parts[1] == 'save') {
-    latest = parts[2] + ' ' + parts[3];
-    response.end('OK\n');
-  } else {
-    response.end(latest);
-  }
+app.get('/', function(request, response) {
+  response.json(latest);
 });
 
-server.listen(5000);
+app.get('/save/:lat/:lon', function(request, response) {
+  latest.lat = request.params.lat;
+  latest.lon = request.params.lon;
+  latest.sec = new Date().getTime();
+  response.send('OK');
+});
+
+var port = process.env.PORT || 5000;
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
