@@ -1,12 +1,18 @@
-var express = require("express");
-var app = express();
-app.use(express.logger());
+var http = require('http');
+var url = require('url');
 
-app.get('/', function(request, response) {
-  response.send('Hello World!');
+var latest = '';
+
+var server = http.createServer(function (request, response) {
+  var requestPath = url.parse(request.url).pathname;
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  var parts = requestPath.split("/");
+  if (parts[1] == 'save') {
+    latest = parts[2] + ' ' + parts[3];
+    response.end('OK\n');
+  } else {
+    response.end(latest);
+  }
 });
 
-var port = process.env.PORT || 5000;
-app.listen(port, function() {
-  console.log("Listening on " + port);
-});
+server.listen(5000);
