@@ -8,10 +8,10 @@ app.get('/', function(request, response) {
   response.json(latest);
 });
 
-app.get('/save/:lat/:lon', function(request, response) {
+app.get('/save/:lat/:lon/:sec', function(request, response) {
   latest.lat = request.params.lat;
   latest.lon = request.params.lon;
-  latest.sec = new Date().getTime();
+  latest.sec = request.params.sec;
   response.send('OK');
 });
 
