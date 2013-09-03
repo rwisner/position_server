@@ -4,8 +4,10 @@ Position server
 Send your current GPS coordinates for later retrieval.
 
 Save
+    http://localhost:5000/save/lat/lon/epochseconds
 
-    http://localhost:5000/save/32.1234/-110.1234
+  Example:
+    http://localhost:5000/save/32.1234/-110.1234/1378227872
 
     Response: OK
 
@@ -16,6 +18,6 @@ Retrieve
     Response: {
               lat: "32.1234",
               lon: "-110.1234",
-              sec: 1377981737591
+              sec: 1378227872
               }
               
